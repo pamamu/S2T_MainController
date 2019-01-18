@@ -2,6 +2,8 @@ import os
 
 import Pyro4
 
+from utils import read_json
+
 
 @Pyro4.expose
 class MainHandler:
@@ -49,6 +51,10 @@ class MainHandler:
             print("Main Container: <{}> unregistered".format(container))
             del self.containers[container]
             self.containers_list.append(container)
+            if container in ['G2P', 'SRILM', 'SPHINXBASE'] and 'Training' in self.containers:
+                obj = Pyro4.Proxy(self.containers['Training'])
+                obj.slave_unregister(container)
+
         else:
             print("Main Container: <{}> not registered".format(container))
             raise ModuleNotFoundError('Container not expected')
@@ -59,19 +65,31 @@ class MainHandler:
         :return:
         """
         os.remove(self.config_path)
-        # TODO STOP ALL REGISTERED CONTAINERS
+        for container, uri in list(self.containers.items()):
+            try:
+                obj = Pyro4.Proxy(uri)
+                obj.stop()
+                print("Main Container: {} Stopped".format(container))
+            except:
+                print("Main Container: Container {} failed at the stop".format(container))
+        self.daemon.shutdown()
         print("Main Container: Stopped")
 
-    def run(self):
+    def run(self, **kwargs):
         """
         TODO DOCUMENTATION
         :return:
         """
         if len(self.containers_list) == 0:
-            obj = Pyro4.Proxy(self.containers['Training'])
-            obj.register([i for i in self.containers.items() if i[0] in ['G2P', 'SRILM', 'SPHINXBASE']])
-            print("Main Container: Run")
-            return True
+            if 'input_json' in kwargs:
+                info = read_json(kwargs['input_json'])
+                obj = Pyro4.Proxy(self.containers['Training'])
+                for container in self.containers.items():
+                    if container[0] in ['G2P', 'SRILM', 'SPHINXBASE']:
+                        obj.slave_register(container[0], container[1])
+                print("Main Container: Run")
+                return True
+            else:
+                raise TypeError('input_json is required')
         else:
-            print("There are no configured containers : {}".format(' '.join(self.containers_list)))
-            return False
+            raise ValueError("There are no configured containers : {}".format(' '.join(self.containers_list)))
