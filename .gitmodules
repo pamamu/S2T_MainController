@@ -4,9 +4,6 @@
 [submodule "S2T_G2P"]
 	path = S2T_G2P
 	url = https://github.com/pamamu/S2T_G2P.git
-[submodule "S2T_Speech2Text"]
-	path = S2T_Speech2Text
-	url = https://github.com/pamamu/S2T_Speech2Text
 [submodule "S2T_GetAudiosTrans"]
 	path = S2T_GetAudiosTrans
 	url = https://github.com/pamamu/S2T_GetAudiosTrans
@@ -25,3 +22,6 @@
 [submodule "S2T_SRILM"]
 	path = S2T_SRILM
 	url = https://github.com/pamamu/S2T_SRILM.git
+[submodule "S2T_Speech2Text"]
+	path = S2T_Speech2Text
+	url = https://github.com/pamamu/S2T_Speech2Text.git
