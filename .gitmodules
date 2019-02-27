@@ -1,0 +1,27 @@
+[submodule "S2T_SPHINXBASE"]
+	path = S2T_SPHINXBASE
+	url = https://github.com/pamamu/S2T_SPHINXBASE.git
+[submodule "S2T_G2P"]
+	path = S2T_G2P
+	url = https://github.com/pamamu/S2T_G2P.git
+[submodule "S2T_SRILM"]
+	path = S2T_SRILM
+	url = https://github.com/pamamu/S2T_SRILM
+[submodule "S2T_Speech2Text"]
+	path = S2T_Speech2Text
+	url = https://github.com/pamamu/S2T_Speech2Text
+[submodule "S2T_GetAudiosTrans"]
+	path = S2T_GetAudiosTrans
+	url = https://github.com/pamamu/S2T_GetAudiosTrans
+[submodule "S2T_AudioProcess"]
+	path = S2T_AudioProcess
+	url = https://github.com/pamamu/S2T_AudioProcess
+[submodule "S2T_Training"]
+	path = S2T_Training
+	url = https://github.com/pamamu/S2T_Training
+[submodule "S2T_Documentation"]
+	path = S2T_Documentation
+	url = https://github.com/pamamu/S2T_Documentation
+[submodule "S2T_Tests"]
+	path = S2T_Tests
+	url = https://github.com/pamamu/S2T_Tests
