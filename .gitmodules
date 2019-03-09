@@ -1,9 +1,6 @@
 [submodule "S2T_SPHINXBASE"]
 	path = S2T_SPHINXBASE
 	url = https://github.com/pamamu/S2T_SPHINXBASE.git
-[submodule "S2T_GetAudiosTrans"]
-	path = S2T_GetAudiosTrans
-	url = https://github.com/pamamu/S2T_GetAudiosTrans
 [submodule "S2T_Training"]
 	path = S2T_Training
 	url = https://github.com/pamamu/S2T_Training
