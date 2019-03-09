@@ -7,9 +7,6 @@
 [submodule "S2T_GetAudiosTrans"]
 	path = S2T_GetAudiosTrans
 	url = https://github.com/pamamu/S2T_GetAudiosTrans
-[submodule "S2T_AudioProcess"]
-	path = S2T_AudioProcess
-	url = https://github.com/pamamu/S2T_AudioProcess
 [submodule "S2T_Training"]
 	path = S2T_Training
 	url = https://github.com/pamamu/S2T_Training
