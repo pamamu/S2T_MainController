@@ -7,9 +7,6 @@
 [submodule "S2T_Tests"]
 	path = S2T_Tests
 	url = https://github.com/pamamu/S2T_Tests
-[submodule "S2T_SRILM"]
-	path = S2T_SRILM
-	url = https://github.com/pamamu/S2T_SRILM.git
 [submodule "S2T_Speech2Text"]
 	path = S2T_Speech2Text
 	url = https://github.com/pamamu/S2T_Speech2Text.git
