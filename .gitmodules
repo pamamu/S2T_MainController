@@ -1,6 +1,3 @@
 [submodule "S2T_Training"]
 	path = S2T_Training
 	url = https://github.com/pamamu/S2T_Training
-[submodule "S2T_Tests"]
-	path = S2T_Tests
-	url = https://github.com/pamamu/S2T_Tests
