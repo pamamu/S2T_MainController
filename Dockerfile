@@ -12,6 +12,6 @@ ADD . .
 RUN apk add --update build-base linux-headers
 RUN pip install -r requirements.txt
 
-ENTRYPOINT python src/app.py $SHARED_FOLDER $CONTAINER_LIST_PATH
+CMD python src/app.py $SHARED_FOLDER $CONTAINER_LIST_PATH
 
 
