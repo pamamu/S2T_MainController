@@ -35,6 +35,8 @@ if __name__ == '__main__':
                   "---------------------------------\n")
             input_value = input("Input number: ")
             integer_value = int(input_value)
+            if integer_value == 0:
+                break
             info_path = input("Json Info Path: ")
             handler.run(action=integer_value, input_json=info_path)
 
