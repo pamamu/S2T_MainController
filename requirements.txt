@@ -1,3 +1,11 @@
 certifi==2018.11.29
 Pyro4==4.74
 serpent==1.27
+Pyro4==4.74
+python-engineio==3.5.1
+python-socketio==3.1.2
+Jinja2==2.10.1
+Flask==1.0.2
+Flask-Bootstrap==3.3.7.1
+Flask-SocketIO==3.3.2
+Flask-WTF==0.14.2

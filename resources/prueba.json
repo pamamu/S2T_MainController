@@ -1,0 +1,37 @@
+{
+    "shared_folder": "/Users/pablomaciasmunoz/Dev/WS_TFG/S2T/shared_folder",
+    "containers": {
+        "MainController": {
+            "status": true,
+            "uri": "PYRO:MainController@localhost:4041"
+        },
+        "Speech2Text": {
+            "status": false,
+            "uri": ""
+        },
+        "AudioProcessing": {
+            "status": false,
+            "uri": ""
+        },
+        "GetAudioTrans": {
+            "status": false,
+            "uri": ""
+        },
+        "Training": {
+            "status": false,
+            "uri": ""
+        },
+        "G2P": {
+            "status": false,
+            "uri": ""
+        },
+        "SRILM": {
+            "status": false,
+            "uri": ""
+        },
+        "SPHINXBASE": {
+            "status": false,
+            "uri": ""
+        }
+    }
+}

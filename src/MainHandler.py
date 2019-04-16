@@ -3,7 +3,7 @@ from threading import Thread
 
 import Pyro4
 
-from utils import read_json, check_file
+from utils import check_file, turn_container, set_shared_folder, get_ip
 
 
 @Pyro4.expose
@@ -16,11 +16,13 @@ class MainHandler:
         """
         self.containers = {}
         self.containers_list = containers_list
-        self.daemon = Pyro4.Daemon(port=4040)
+        self.daemon = Pyro4.Daemon(port=4040, host=get_ip())
         self.uri = str(self.daemon.register(self, objectId="MainController"))
         self.thread = Thread(target=self.daemon.requestLoop)
         self.base_path = base_path
         self.config_path = os.path.join(base_path, 'server.info')
+        turn_container("MainController", True, self.uri)
+        set_shared_folder(self.base_path)
         print("Main Container: Created - {}".format(self.uri))
 
     def start(self):
@@ -42,6 +44,7 @@ class MainHandler:
         """
         if container in self.containers_list:
             print("Main Container: <{}> registered from <{}>".format(container, uri))
+            turn_container(container, True, uri)
             self.containers[container] = uri
             self.containers_list.remove(container)
             return container, uri
@@ -52,6 +55,7 @@ class MainHandler:
     def unregister(self, container):
         if container in self.containers:
             print("Main Container: <{}> unregistered".format(container))
+            turn_container(container, False)
             del self.containers[container]
             self.containers_list.append(container)
             if container in ['G2P', 'SRILM', 'SPHINXBASE'] and 'Training' in self.containers:
@@ -69,6 +73,7 @@ class MainHandler:
         """
         os.remove(self.config_path)
         for container, uri in list(self.containers.items()):
+            turn_container(container, False)
             try:
                 obj = Pyro4.Proxy(uri)
                 obj.stop()
@@ -77,6 +82,9 @@ class MainHandler:
                 print("Main Container: Container {} failed at the stop".format(container))
         self.daemon.shutdown()
         print("Main Container: Stopped")
+
+    def info(self):
+        return "Hello from {}".format(self.uri)
 
     def run(self, **kwargs):
         """
@@ -87,12 +95,15 @@ class MainHandler:
             raise TypeError('input_json and action are required')
         action = kwargs['action']
         check_file(kwargs['input_json'])
+        print(kwargs)
         if action == 1:
             necessary_containers = ['GetAudioTrans']
             if all(i in self.containers for i in necessary_containers):
                 print("OK - GetAudioTrans")
                 obj = Pyro4.Proxy(self.containers['GetAudioTrans'])
-                obj.run(input_json=kwargs['input_json'], output_folder=self.base_path)
+                response = obj.run(input_json=kwargs['input_json'], output_folder=self.base_path)
+                print(response)
+                return response
             else:
                 raise ValueError("There are no configured containers : {}".format(
                     ' '.join(filter(lambda x: x not in self.containers, necessary_containers))))
@@ -107,8 +118,8 @@ class MainHandler:
             else:
                 raise ValueError("There are no configured containers : {}".format(
                     ' '.join(filter(lambda x: x not in self.containers, necessary_containers))))
-        elif action == 3 and 'Speech2Text' in self.containers:
-            necessary_containers = ["AudioProcessing", "Training", "G2P", "SRILM", "SPHINXBASE"]
+        elif action == 3:
+            necessary_containers = ["Speech2Text"]
             if all(i in self.containers for i in necessary_containers):
                 print("OK - Speech2Text")
             else:
