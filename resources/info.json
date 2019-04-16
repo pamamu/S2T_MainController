@@ -1,0 +1,37 @@
+{
+    "shared_folder": "/srv/shared_folder",
+    "containers": {
+        "MainController": {
+            "status": true,
+            "uri": "PYRO:MainController@172.18.0.2:4040"
+        },
+        "Speech2Text": {
+            "status": true,
+            "uri": "PYRO:Speech2Text@172.18.0.3:33888"
+        },
+        "AudioProcessing": {
+            "status": true,
+            "uri": "PYRO:AudioProcessing@172.18.0.4:39511"
+        },
+        "GetAudioTrans": {
+            "status": true,
+            "uri": "PYRO:GetAudioTrans@172.18.0.5:46037"
+        },
+        "Training": {
+            "status": true,
+            "uri": "PYRO:Training@172.18.0.6:36864"
+        },
+        "G2P": {
+            "status": true,
+            "uri": "PYRO:G2P@172.18.0.7:44285"
+        },
+        "SRILM": {
+            "status": true,
+            "uri": "PYRO:SRILM@172.18.0.8:43690"
+        },
+        "SPHINXBASE": {
+            "status": true,
+            "uri": "PYRO:SPHINXBASE@172.18.0.9:37557"
+        }
+    }
+}

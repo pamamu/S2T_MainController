@@ -1,0 +1,79 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+
+
+{% block title %}
+S2T Project
+{% endblock %}
+
+
+{% block content %}
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h1>Bienvenido al Sistema Speech2Text!</h1>
+
+            <p class="lead">Trabajo de Fin de Grado - Pablo Macías Muñoz</p>
+
+            {{ wtf.quick_form(form) }}
+
+            <p class="text-danger"><strong>{{ message }}</strong></p>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <li class="list-group-item active">Estado de contenedores:</li>
+        <ul id="container_list" class="list-group">
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+    socket.on('connect', function () {
+        socket.emit('data');
+    });
+
+    window.setInterval(function () {
+        socket.emit('data');
+    }, 1500);
+
+    socket.on('data_response', function (msg) {
+        load_data(msg)
+    });
+
+    function load_data(data) {
+        $("#container_list").empty();
+        var clase;
+        for (container in data) {
+            clase = 'list-group-item list-group-item-';
+            var texto = container;
+            if (data[container]['status']) {
+                texto += ' - ' + data[container]['uri'];
+                clase += 'success';
+            } else {
+                clase += 'danger';
+            }
+            $("#container_list").append(
+                $('<li>').attr('id', container).append(texto).addClass(clase)
+            );
+        }
+    }
+
+
+</script>
+
+
+{% endblock %}
