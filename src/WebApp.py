@@ -9,7 +9,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired, FileAllowed
 from wtforms import SubmitField, SelectField, FileField
 
-from utils import get_info, get_shared_folder, save_json
+from utils import get_info, get_shared_folder
 
 app = Flask(__name__, root_path="resources",
             static_folder="../resources/static",
@@ -38,11 +38,11 @@ def index():
         try:
             response = obj.run(action=option, input_json=file_path)
             print(response)
-            response_path = save_json(response, path.join(get_shared_folder(), 'response.json'))
+            # response_path = save_json(response, path.join(get_shared_folder(), 'response.json'))
         except Exception as e:
             return render_template('index.html', form=form, message=str(e), async_mode=socketio.async_mode)
-        return send_file(response_path,
-                         attachment_filename="test.json", mimetype="text/json", as_attachment=True)
+        return send_file(response,
+                         attachment_filename="response.json", mimetype="text/json", as_attachment=True)
 
     return render_template('index.html', form=form, message=message, async_mode=socketio.async_mode)
 
@@ -63,7 +63,8 @@ class WebApp:
 class NameForm(FlaskForm):
     language = SelectField(
         '¿Qué quieres hacer?',
-        choices=[('1', 'Descargar Audio y Transcripciones'), ('2', 'Entrenar Modelos'), ('3', 'Speech2Text')]
+        choices=[('1', 'Descargar Audio y Transcripciones'), ('4', 'Procesar audio'), ('2', 'Entrenar Modelos'),
+                 ('3', 'Speech2Text')]
     )
     input_data = FileField("Fichero de Entrada", validators=[FileRequired(), FileAllowed(['json'], 'Json only!')])
     submit = SubmitField('Submit')

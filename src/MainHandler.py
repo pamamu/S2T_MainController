@@ -16,7 +16,7 @@ class MainHandler:
         """
         self.containers = {}
         self.containers_list = containers_list
-        self.daemon = Pyro4.Daemon(port=4040, host=get_ip())
+        self.daemon = Pyro4.Daemon(port=40400, host=get_ip())
         self.uri = str(self.daemon.register(self, objectId="MainController"))
         self.thread = Thread(target=self.daemon.requestLoop)
         self.base_path = base_path
@@ -102,28 +102,40 @@ class MainHandler:
                 print("OK - GetAudioTrans")
                 obj = Pyro4.Proxy(self.containers['GetAudioTrans'])
                 response = obj.run(input_json=kwargs['input_json'], output_folder=self.base_path)
-                print(response)
-                return response
             else:
                 raise ValueError("There are no configured containers : {}".format(
                     ' '.join(filter(lambda x: x not in self.containers, necessary_containers))))
         elif action == 2:
-            necessary_containers = ["AudioProcessing", "Training", "G2P", "SRILM", "SPHINXBASE"]
+            necessary_containers = ["Training", "G2P", "SRILM", "SPHINXBASE"]
             if all(i in self.containers for i in necessary_containers):
                 obj = Pyro4.Proxy(self.containers['Training'])
                 for container in self.containers.items():
                     if container[0] in ['G2P', 'SRILM', 'SPHINXBASE']:
                         obj.slave_register(container[0], container[1])
-                print("OK - Training")
+                response = obj.run(input_json=kwargs['input_json'], output_folder=self.base_path)
             else:
                 raise ValueError("There are no configured containers : {}".format(
                     ' '.join(filter(lambda x: x not in self.containers, necessary_containers))))
         elif action == 3:
             necessary_containers = ["Speech2Text"]
             if all(i in self.containers for i in necessary_containers):
+                obj = Pyro4.Proxy(self.containers['Speech2Text'])
+                response = obj.run(input_json=kwargs['input_json'], output_folder=self.base_path)
                 print("OK - Speech2Text")
             else:
                 raise ValueError("There are no configured containers : {}".format(
                     ' '.join(filter(lambda x: x not in self.containers, necessary_containers))))
+        elif action == 4:
+            necessary_containers = ["AudioProcessing"]
+            if all(i in self.containers for i in necessary_containers):
+                obj = Pyro4.Proxy(self.containers['AudioProcessing'])
+                response = obj.run(input_json=kwargs['input_json'], output_folder=self.base_path)
+                print("OK - AudioProcessing")
+            else:
+                raise ValueError("There are no configured containers : {}".format(
+                    ' '.join(filter(lambda x: x not in self.containers, necessary_containers))))
+
         else:
             raise ValueError("Incorrect Option")
+        print(response)
+        return response
