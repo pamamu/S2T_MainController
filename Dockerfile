@@ -9,7 +9,7 @@ WORKDIR /srv/S2T/S2T_MainController
 
 ADD . .
 
-RUN apk add --update build-base linux-headers
+RUN apk add --update build-base linux-headers curl
 RUN pip install -r requirements.txt
 
 CMD python src/app.py $SHARED_FOLDER $CONTAINER_LIST_PATH
