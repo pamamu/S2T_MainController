@@ -1,4 +1,4 @@
-certifi==2018.11.29
+certifi==2022.12.7
 Pyro4==4.74
 serpent==1.27
 Pyro4==4.74
